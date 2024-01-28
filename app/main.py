@@ -3,8 +3,19 @@ from fastapi import FastAPI, Response, status, HTTPException
 from fastapi.params import Body
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
+import psycopg
 
 app = FastAPI()
+
+try:
+   conn = psycopg.connect(f"""
+    dbname=mydb
+    user=johndoe
+    password=randompassword
+    host=localhost
+    port=5432""")
+except:
+    print("sadjask")
 
 class CreatePostDto(BaseModel):
     id: int
@@ -48,13 +59,13 @@ def get_posts():
     return my_posts
 
 @app.get('/posts/{id}')
-def get_post(id: int, res: Response):
+def get_post(id: int):
     data = findPostById(id) 
     if not data:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=None)
     return { "data": data }
 
-@app.post('/posts')
+@app.post('/posts', status_code=status.HTTP_201_CREATED)
 def create_post(createPostDto: CreatePostDto):
     data = createPostDto.model_dump()
     my_posts.append(data)

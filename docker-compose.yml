@@ -1,14 +1,17 @@
-version: '3'
+version: '3.8'
+
 services:
-  db:
-    image: mysql:8.0
-    ports:
-      - '3306:3306'
+  postgres:
+    image: postgres:latest
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: test
+      POSTGRES_DB: mydb
+      POSTGRES_USER: johndoe
+      POSTGRES_PASSWORD: randompassword
+    ports:
+      - '5432:5432'
     volumes:
-      - db_data:/var/lib/mysql
+      - pgdata:/var/lib/postgresql/data
 
 volumes:
-  db_data:
+  pgdata:
