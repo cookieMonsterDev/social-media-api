@@ -2,7 +2,7 @@ from typing import Optional
 from fastapi import FastAPI, status, HTTPException
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
-from app.database.database import Base, engine
+# from app.database.database import Base, engine
  
 
 app = FastAPI()
