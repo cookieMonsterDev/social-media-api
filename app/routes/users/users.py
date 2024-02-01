@@ -1,16 +1,18 @@
 from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
 
-# from ..database import get_session
+from ...database import get_session
+from .models import User 
 
 router = APIRouter(
   prefix='/users',
   tags=['users']
 )
 
-# @router.get('/')
-# async def get_users(db: Session = Depends(get_session)):
-#   return { "allusers": [] }
+@router.get('/')
+async def get_users(db: Session = Depends(get_session)):
+  users = db.exec(User).all()
+  return { "data": users }
 
 
 # @router.get('/{id}')
